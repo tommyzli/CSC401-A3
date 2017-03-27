@@ -23,8 +23,9 @@ function gmms = gmmTrain( dir_train, max_iter, epsilon, M )
   training_dir(length(training_dir)) = [];
 
   for dir_index=1:length(training_dir)
+    disp('===============');
     disp(sprintf('Training for %s', training_dir{dir_index}));
-    disp('');
+    disp('===============');
 
     new_gmm = struct();
     new_gmm.name = training_dir{dir_index};
@@ -49,6 +50,7 @@ function gmms = gmmTrain( dir_train, max_iter, epsilon, M )
 
       improvement = abs(L - prev_L);
       prev_L = L;
+      %disp(sprintf('Improvement: %s', num2str(improvement)));
 
       i = i + 1;
     end
@@ -112,20 +114,20 @@ function [log_likelihood, theta] = computeLikelihoodAndUpdateParameters( theta, 
     p_m_given_xt = [p_m_given_xt; weighted_probs(i) ./ p_theta_xt(i)];
   end
 
-  for i=1:M
-    sum_p_m_given_xt = sum(p_m_given_xt(i));
+  for j=1:M
+    sum_p_m_given_xt = sum(p_m_given_xt(j));
 
     % new weight
-    theta.weight(i) = sum_p_m_given_xt / x;
+    theta.weight(j) = sum_p_m_given_xt / x;
 
     % new mean
     multiplier = ones(1, x) - 1;
     multiplier(1) = 1;
-    theta.mean(i) = sum((p_m_given_xt(i) * multiplier) * mfcc_vectors) / sum_p_m_given_xt;
+    theta.mean(j) = sum((p_m_given_xt(j) * multiplier) * mfcc_vectors) / sum_p_m_given_xt;
 
     % new covariance
-    
+    cov_vector = (sum((p_m_given_xt(j) * multiplier) * (mfcc_vectors .^ 2)) / sum_p_m_given_xt) - (theta.mean(j) ^ 2);
+    theta.covariance(:, :, j) = diag(cov_vector);
   end
 
-  return
 end
