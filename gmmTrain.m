@@ -65,14 +65,9 @@ end
 
 function theta = initialize_theta( mfcc, M )
   % means are selected randomly
-  %{
   rand_indexes = randperm(size(mfcc, 1), M);
   for i=1:M
     mn(:, i) = mfcc(rand_indexes(i), :);
-  end
-  %}
-  for i=1:M
-    mn(:, i) = mfcc(1, :);
   end
 
   % weights are initially uniform
@@ -103,12 +98,14 @@ function [log_likelihood, theta] = computeLikelihoodAndUpdateParameters( theta, 
 
     section_2 = ((d/2) * log(2*pi)) + (0.5 * prod(cov));
     log_b_m_xt(:, i) = section_1 - section_2;
+    b_m_xt(:, i) = exp(log_b_m_xt(:, i));
+    weighted_probs(:, i) = theta.weight(i) * b_m_xt(:, i);
   end
 
-  b_m_xt = exp(log_b_m_xt);
-  for i=1:M
-    weighted_probs(:, i) = theta.weight(i) .* b_m_xt(:, i);
-  end
+  %b_m_xt = exp(log_b_m_xt);
+  %for i=1:M
+    %weighted_probs(:, i) = theta.weight(i) .* b_m_xt(:, i);
+  %end
 
   p_theta_xt = sum(weighted_probs, 2);
 
