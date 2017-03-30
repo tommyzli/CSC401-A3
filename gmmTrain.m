@@ -94,18 +94,13 @@ function [log_likelihood, theta] = computeLikelihoodAndUpdateParameters( theta, 
   for i=1:M
     cov = diag(theta.covariance(:, :, i));
     section_1 = -1 * sum( ...
-      ((mfcc_vectors - ((ones(x, 1) * theta.mean(:, i)'))) .^ 2) ./ (2 .* cov(:, :, 1))', 2);
+      ((mfcc_vectors - ((ones(x, 1) * theta.mean(:, i)'))) .^ 2) ./ (2 .* cov)', 2);
 
     section_2 = ((d/2) * log(2*pi)) + (0.5 * prod(cov));
     log_b_m_xt(:, i) = section_1 - section_2;
     b_m_xt(:, i) = exp(log_b_m_xt(:, i));
     weighted_probs(:, i) = theta.weight(i) * b_m_xt(:, i);
   end
-
-  %b_m_xt = exp(log_b_m_xt);
-  %for i=1:M
-    %weighted_probs(:, i) = theta.weight(i) .* b_m_xt(:, i);
-  %end
 
   p_theta_xt = sum(weighted_probs, 2);
 
@@ -122,17 +117,12 @@ function [log_likelihood, theta] = computeLikelihoodAndUpdateParameters( theta, 
   for j=1:M
     sum_p_m_given_xt = sum(p_m_given_xt(:, j));
 
-    multiplier = ones(1, x) - 1;
+    multiplier = ones(1, d) - 1;
     multiplier(1) = 1;
-    theta.mean(:, j) = sum((p_m_given_xt(:, j) * multiplier) * mfcc_vectors) / sum_p_m_given_xt;
+    theta.mean(:, j) = sum((p_m_given_xt(:, j) * multiplier)' * mfcc_vectors) / sum_p_m_given_xt;
 
-    %{
-    mthCov = sum((p_m_given_xt(:, j) * multiplier)' * (mfcc_vectors .^ 2)) / sum_p_m_given_xt;
-    theta.covariance(:, :, j) = diag(mthCov(1, :)' - (theta.mean(:, j) .^ 2));
-    %}
-    cov_section_1 = sum((p_m_given_xt(:, j) * multiplier)' * (mfcc_vectors .^2));
-    theta.covariance(:, :, j) = diag((cov_section_1 / sum_p_m_given_xt) - (theta.mean(:, j) .^ 2)');
-
+    cov_section = sum((p_m_given_xt(:, j) * multiplier)' * (mfcc_vectors .^ 2)) / sum_p_m_given_xt;
+    theta.covariance(:, :, j) = diag(cov_section' - (theta.mean(:, j) .^ 2));
   end
 
 end
