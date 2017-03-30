@@ -21,9 +21,11 @@ function gmms = gmmTrain( dir_train, max_iter, epsilon, M )
   training_dir(length(training_dir)) = [];
 
   for dir_index=1:length(training_dir)
+    %{
     disp('===============');
     disp(sprintf('Training for %s', training_dir{dir_index}));
     disp('===============');
+    %}
 
     new_gmm = struct();
     new_gmm.name = training_dir{dir_index};
@@ -44,18 +46,18 @@ function gmms = gmmTrain( dir_train, max_iter, epsilon, M )
     while (i < max_iter & improvement >= epsilon)
       [L, theta] = computeLikelihoodAndUpdateParameters(theta, mfcc_vectors, M);
 
-      disp(sprintf('Old L: %s       New L: %s', prev_L, L));
+      %disp(sprintf('Old L: %s       New L: %s', prev_L, L));
 
       improvement = L - prev_L;
       prev_L = L;
-      disp(sprintf('Improvement: %s', num2str(improvement)));
+      %disp(sprintf('Improvement: %s', num2str(improvement)));
 
       i = i + 1;
     end
 
-    new_gmm.weights = theta.weight;
-    new_gmm.means = theta.mean;
-    new_gmm.cov = theta.covariance;
+    new_gmm.weights = theta.weights;
+    new_gmm.means = theta.means;
+    new_gmm.cov = theta.cov;
     %gmms = [gmms; new_gmm];
     gmms{dir_index} = new_gmm;
   end
@@ -77,9 +79,9 @@ function theta = initialize_theta( mfcc, M )
   covariance = repmat(eye(size(mfcc, 2)), 1, 1, M);
 
   theta = struct();
-  theta.mean = mn;
-  theta.weight = weight;
-  theta.covariance = covariance;
+  theta.means = mn;
+  theta.weights = weight;
+  theta.cov = covariance;
 
   return
 end
@@ -92,14 +94,14 @@ function [log_likelihood, theta] = computeLikelihoodAndUpdateParameters( theta, 
 
   % log(b_m(x_t))
   for i=1:M
-    cov = diag(theta.covariance(:, :, i));
+    cov = diag(theta.cov(:, :, i));
     section_1 = -1 * sum( ...
-      ((mfcc_vectors - ((ones(x, 1) * theta.mean(:, i)'))) .^ 2) ./ (2 .* cov)', 2);
+      ((mfcc_vectors - ((ones(x, 1) * theta.means(:, i)'))) .^ 2) ./ (2 .* cov)', 2);
 
     section_2 = ((d/2) * log(2*pi)) + (0.5 * prod(cov));
     log_b_m_xt(:, i) = section_1 - section_2;
     b_m_xt(:, i) = exp(log_b_m_xt(:, i));
-    weighted_probs(:, i) = theta.weight(i) * b_m_xt(:, i);
+    weighted_probs(:, i) = theta.weights(i) * b_m_xt(:, i);
   end
 
   p_theta_xt = sum(weighted_probs, 2);
@@ -112,17 +114,18 @@ function [log_likelihood, theta] = computeLikelihoodAndUpdateParameters( theta, 
     p_m_given_xt(:, i) = weighted_probs(:, i) ./ p_theta_xt;
   end
 
-  theta.weight = sum(p_m_given_xt) / x;
+  theta = struct();
+  theta.weights = sum(p_m_given_xt) / x;
 
   for j=1:M
     sum_p_m_given_xt = sum(p_m_given_xt(:, j));
 
     multiplier = ones(1, d) - 1;
     multiplier(1) = 1;
-    theta.mean(:, j) = sum((p_m_given_xt(:, j) * multiplier)' * mfcc_vectors) / sum_p_m_given_xt;
+    theta.means(:, j) = sum((p_m_given_xt(:, j) * multiplier)' * mfcc_vectors) / sum_p_m_given_xt;
 
     cov_section = sum((p_m_given_xt(:, j) * multiplier)' * (mfcc_vectors .^ 2)) / sum_p_m_given_xt;
-    theta.covariance(:, :, j) = diag(cov_section' - (theta.mean(:, j) .^ 2));
+    theta.cov(:, :, j) = diag(cov_section' - (theta.means(:, j) .^ 2));
   end
 
 end
