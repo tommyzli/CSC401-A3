@@ -10,10 +10,9 @@ function log_likelihood = calculateLikelihood( theta, mfcc_vectors, M )
 
     section_2 = ((d/2) * log(2*pi)) + (0.5 * prod(cov));
     log_b_m_xt(:, i) = section_1 - section_2;
+    b_m_xt(:, i) = exp(log_b_m_xt(:, i));
+    weighted_probs(:, i) = theta.weights(i) * b_m_xt(:, i);
   end
-
-  b_m_xt = exp(log_b_m_xt);
-  weighted_probs = theta.weights .* b_m_xt;
 
   p_theta_xt = sum(weighted_probs, 2);
 
