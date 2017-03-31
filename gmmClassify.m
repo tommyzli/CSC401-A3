@@ -7,7 +7,8 @@ gmm_vector = gmmTrain(training_dir, max_iter, epsilon, M);
 
 test_files = dir([testing_dir, filesep, '*.mfcc']);
 for file_index=1:length(test_files)
-  file = dlmread(strcat(testing_dir, filesep, test_files(file_index).name));
+  disp(num2str(file_index));
+  file = dlmread(strcat(testing_dir, filesep, sprintf('unkn_%s.mfcc', num2str(file_index))));
   likelihoods = [];
   for gmm_i=1:length(gmm_vector)
     log_likelihood = calculateLikelihood(gmm_vector{gmm_i}, file, M);
