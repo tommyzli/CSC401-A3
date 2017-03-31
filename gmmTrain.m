@@ -47,6 +47,7 @@ function gmms = gmmTrain( dir_train, max_iter, epsilon, M )
       [L, theta] = computeLikelihoodAndUpdateParameters(theta, mfcc_vectors, M);
 
       %disp(sprintf('Old L: %s       New L: %s', prev_L, L));
+      %disp(sprintf('L: %s', L));
 
       improvement = L - prev_L;
       prev_L = L;
@@ -100,9 +101,10 @@ function [log_likelihood, theta] = computeLikelihoodAndUpdateParameters( theta, 
 
     section_2 = ((d/2) * log(2*pi)) + (0.5 * prod(cov));
     log_b_m_xt(:, i) = section_1 - section_2;
-    b_m_xt(:, i) = exp(log_b_m_xt(:, i));
-    weighted_probs(:, i) = theta.weights(i) * b_m_xt(:, i);
   end
+
+  b_m_xt = exp(log_b_m_xt);
+  weighted_probs = theta.weights .* b_m_xt;
 
   p_theta_xt = sum(weighted_probs, 2);
 
