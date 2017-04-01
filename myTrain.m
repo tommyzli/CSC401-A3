@@ -5,8 +5,9 @@ training_dir_path = '/u/cs401/speechdata/Training';
 M = 8;
 Q = 3;
 init_type = 'kmeans';
-max_iter = 15;
+max_iter = 5;
 
+if ~exist('phonemes.mat')
 training_dir_contents = regexp(ls(training_dir_path), '\s', 'split');
 % remove empty strings from the array
 training_dir_contents = training_dir_contents(~cellfun('isempty', training_dir_contents));
@@ -45,6 +46,10 @@ for speaker_index=1:length(training_dir_contents)
       end
     end
   end
+end
+save('phonemes.mat', 'phonemes', '-mat');
+else
+  load('phonemes.mat', '-mat');
 end
 
 observed_phonemes = fieldnames(phonemes);
