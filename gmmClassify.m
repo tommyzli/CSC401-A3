@@ -33,7 +33,6 @@ for file_index=1:length(test_files)
   end
   diary off;
 end
-first_choices
 
 answers = {'MMRP0', 'MPGH0', 'MKLW0', 'FSAH0', 'FVFB0', 'FJSP0', 'MTPF0', ...
         'MRDD0', 'MRSO0', 'MKLS0', 'FETB0', 'FMEM0', 'FCJF0', 'MWAR0', 'MTJS0'};
