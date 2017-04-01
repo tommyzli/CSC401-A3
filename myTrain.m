@@ -8,6 +8,7 @@ init_type = 'kmeans';
 max_iter = 5;
 
 if ~exist('phonemes.mat')
+disp('building phoneme struct');
 training_dir_contents = regexp(ls(training_dir_path), '\s', 'split');
 % remove empty strings from the array
 training_dir_contents = training_dir_contents(~cellfun('isempty', training_dir_contents));
@@ -49,6 +50,7 @@ for speaker_index=1:length(training_dir_contents)
 end
 save('phonemes.mat', 'phonemes', '-mat');
 else
+  disp('loading presaved phoneme struct');
   load('phonemes.mat', '-mat');
 end
 
