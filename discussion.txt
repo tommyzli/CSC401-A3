@@ -1,6 +1,6 @@
 Bonus
 =====
-Speak2Me login: litommy
+Talk2Me login: litommy
 
 Section 2.3
 ===========
