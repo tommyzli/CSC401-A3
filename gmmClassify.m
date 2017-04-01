@@ -1,7 +1,5 @@
-%training_dir = '/u/cs401/speechdata/Training';
-%testing_dir = '/u/cs401/speechdata/Testing';
-training_dir = './Training';
-testing_dir = './Testing';
+training_dir = '/u/cs401/speechdata/Training';
+testing_dir = '/u/cs401/speechdata/Testing';
 max_iter = 100;
 epsilon = 0.1;
 M = 8;
