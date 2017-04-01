@@ -1,0 +1,75 @@
+Section 2.3
+===========
+
+For my experiments, I used 8 as the default value for M, 0.1 as the default value for epsilon,
+and 100 as the maximum amount of iterations.
+
+----------------------------------
+Experimenting with epsilon values:
+Accuracy        M       epsilon
+2/15            8       10
+9/15            8       1
+10/15           8       0.1
+9/15            8       0.01
+
+According to these results, the accuracy stabilizes when epsilon is <= 1. It is expected that
+the accuracy would drop as epsilon increases, as it would cause the EM algorithm to stop
+before it completely converges.
+
+----------------------------
+Experimenting with M values:
+Accuracy        M       epsilon
+0/15            100     0.1
+10/15           8       0.1
+9/15            4       0.1
+4/15            1       0.1
+
+My observations show that the accuracy suffers when M is too high or too low. However,
+it suffers at very high and very low M values. Too few components can cause the Gaussian
+mixture model to fit poorly. When there are too many components, the accuracy drops,
+which is likely caused by overfitting.
+
+
+-----------------------------------------------
+Experimenting with number of possible speakers:
+Accuracy        num speakers
+10/15           30
+6/15            25
+4/15            15
+0/15            1
+
+As expected, the accuracy decreases alongside the number of possible speakers. As the number
+of possible speakers decreases, it increases the chance that one of the unknown speakers was
+removed from the trained gmms.
+
+---------
+Questions
+
+1. How might you improve the classification accuracy of Gaussian mixtures, without adding
+more training data?
+
+    A simple way to improve accuracy is to decrease the epsilon value and increase the maximum
+    iterations. This forces the EM algorithm to converge at much smaller improvements, and give
+    higher accuracies, as shown by my experiments with chaning epsilons. The reason the maximum
+    iterations needs to be raised is that with very small epsilon values, it is possible that 
+    the improvements would never reach epsilon before reaching the maximum iteration amount.
+
+    Another way to improve accuracy is to remove the assumption of independance such that the 
+    covariance matrices are no longer diagonal.
+
+
+2. When would your classifier decide that a given test utterance comes from none of the
+trained speaker models, and how would your classifier come to this decision?
+
+    One method to determine if an utterance does not fit any of the trained models is to
+    empirically determine a minimum likelihood. If the likelihood of the most likely speaker
+    is below that minimum, then assume the utterance does not belong to any of the trained
+    speakers.
+
+
+3. Can you think of some alternative methods for doing speaker identification that don't
+use Gaussian mixtures?
+
+    An alternative is to train a neural network with the speakers.
+
+    Also, instead of using Gaussian mixtures for clustering, k-means clustering can be used.
