@@ -89,7 +89,7 @@ For my experiements, I used 8 as the default value for M, 3 as the default value
 ----------------------------
 Experimenting with M values:
 Accuracy        M       Q
-                8       3  // Default
+45.35%          8       3  // Default
                 4       3
                 1       3
 
@@ -98,14 +98,14 @@ Accuracy        M       Q
 Experimenting with Q values:
 Accuracy        M       Q
                 8       6
-                8       3  // Default
+45.35%          8       3  // Default
                 8       1
 
 
 ----------------------------------
 Experimenting with dimentionality:
 Accuracy        D
-                14  // Default
+45.35%          14  // Default
                 7
                 1
 
@@ -113,6 +113,6 @@ Accuracy        D
 -------------------------------------------
 Experimenting with amount of training data:
 Accuracy        % of training data used
-                100%  // Default
+45.35%          100%  // Default
                 67%
                 33%
