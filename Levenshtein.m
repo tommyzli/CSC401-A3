@@ -16,7 +16,8 @@ function [SE IE DE LEV_DIST] =Levenshtein(hypothesis,annotation_dir)
 
   total_wordcount = 0;
 
-  hypothesis_text = textread(hypothesis, '%s', 'delimiter', '\n'); for hyp_index=1:length(hypothesis_text)
+  hypothesis_text = textread(hypothesis, '%s', 'delimiter', '\n');
+  for hyp_index=1:length(hypothesis_text)
     split_hyp = regexp(hypothesis_text{hyp_index}, '\s', 'split');
     hyp_sentence = split_hyp(3:end);
     m = length(hyp_sentence);
