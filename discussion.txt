@@ -3,6 +3,7 @@ Bonus
 Talk2Me login: litommy
 
 
+===========
 Section 2.3
 ===========
 
@@ -12,36 +13,35 @@ and 100 as the maximum amount of iterations.
 ----------------------------------
 Experimenting with epsilon values:
 Accuracy        M       epsilon
-2/15            8       10
-9/15            8       1
-10/15           8       0.1  // Default
-9/15            8       0.01
+14/15           8       10
+15/15           8       1
+15/15           8       0.1  // Default
+15/15           8       0.01
 
-According to these results, the accuracy stabilizes when epsilon is <= 1. It is expected that
+According to these results, the accuracy is mostly constant for epsilon <= 1. It is expected that
 the accuracy would drop as epsilon increases, as it would cause the EM algorithm to stop
 before it completely converges.
 
 ----------------------------
 Experimenting with M values:
 Accuracy        M       epsilon
-0/15            100     0.1
-10/15           8       0.1  // Default
-9/15            4       0.1
-4/15            1       0.1
+15/15            20     0.1  TODO
+15/15           8       0.1  // Default
+15/15           4       0.1
+14/15           1       0.1
 
-My observations show that the accuracy suffers when M is too high or too low. However,
-it suffers at very high and very low M values. Too few components can cause the Gaussian
-mixture model to fit poorly. When there are too many components, the accuracy drops,
-which is likely caused by overfitting.
+My observations show that the accuracy suffers slightly when M too low. Too few components can cause
+the Gaussian mixture model to fit poorly. When there are too many components, the accuracy stays the same,
+but runs much slower.
 
 
 -----------------------------------------------
 Experimenting with number of possible speakers:
 Accuracy        num speakers
-10/15           30  // Default
-6/15            25
-4/15            15
-0/15            1
+15/15           30  // Default
+12/15           25
+8/15            15
+1/15            1
 
 As expected, the accuracy decreases alongside the number of possible speakers. As the number
 of possible speakers decreases, it increases the chance that one of the unknown speakers was
@@ -80,39 +80,37 @@ use Gaussian mixtures?
     Also, instead of using Gaussian mixtures for clustering, k-means clustering can be used.
 
 
+===========
 Section 3.2
 ===========
 
-For my experiements, I used 8 as the default value for M, 3 as the default value for Q, and
-15 as the maximum amount of iterations.
+For my experiements, I used 15 as the maximum amount of iterations to train the HMMs.
 
 ----------------------------
 Experimenting with M values:
-Accuracy        M       Q
-45.35%          8       3  // Default
-                4       3
-45.16%          1       3
+Accuracy        M       Q       D       %
+46.35%          8       3       14      100  // Default Case
+                4       3       14      100
+45.16%          1       3       14      100
 
 
-----------------------------
-Experimenting with Q values:
-Accuracy        M       Q
-                8       6
-45.35%          8       3  // Default
-                8       1
 
-
-----------------------------------
-Experimenting with dimentionality:
-Accuracy        D
-45.35%          14  // Default
-                7
-                1
-
-
--------------------------------------------
-Experimenting with amount of training data:
-Accuracy        % of training data used
-45.35%          100%  // Default
-                67%
-                33%
+Experiment Results:
+Accuracy        M       Q       D       % of training data used
+46.35%          8       3       14       100%
+48.36%          4       3       14       100%
+45.26%          8       1       14       100%
+                4       1       14       100%
+TODO            8       3       7        100%
+                4       3       7        100%
+                8       1       7        100%
+                4       1       7        100%
+                8       3       14       67%
+                4       3       14       67%
+                8       1       14       67%
+                4       1       14       67%
+                8       3       7        67%
+                4       3       7        67%
+                8       1       7        67%
+                4       1       7        67%
+                
