@@ -16,8 +16,7 @@ function [SE IE DE LEV_DIST] =Levenshtein(hypothesis,annotation_dir)
 
   total_wordcount = 0;
 
-  hypothesis_text = textread(hypothesis, '%s', 'delimiter', '\n');
-  for hyp_index=1:length(hypothesis_text)
+  hypothesis_text = textread(hypothesis, '%s', 'delimiter', '\n'); for hyp_index=1:length(hypothesis_text)
     split_hyp = regexp(hypothesis_text{hyp_index}, '\s', 'split');
     hyp_sentence = split_hyp(3:end);
     m = length(hyp_sentence);
@@ -60,7 +59,6 @@ function [SE IE DE LEV_DIST] =Levenshtein(hypothesis,annotation_dir)
         end
       end
     end
-    LEV_DIST = LEV_DIST + (100*distance_matrix(n, m)/n);
 
     % count new IE, DE and SEs
     flat_backtracking_matrix = backtracking_matrix(:)';
@@ -78,4 +76,6 @@ function [SE IE DE LEV_DIST] =Levenshtein(hypothesis,annotation_dir)
   SE = SE / total_wordcount;
   IE = IE / total_wordcount;
   DE = DE / total_wordcount;
+
+  LEV_DIST = SE + IE + DE;
 end
