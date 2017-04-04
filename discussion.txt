@@ -118,3 +118,254 @@ TODO            8       3       7        100%
 ===========
 Section 3.3
 ===========
+
+Output of Levenshtein:
+
+----------------------
+Filename: unkn_1.txt
+Reference: Now here is truly a marvel.
+Hypothesis: Now here is truly hey marvel.
+DE: 0
+IE: 0
+SE: 0.16667
+LEV_DIST: 0.16667
+----------------------
+Filename: unkn_2.txt
+Reference: The cartoon features a muskrat and a tadpole.
+Hypothesis: Cat tune features a muskrat and a tadpole.
+DE: 0
+IE: 0
+SE: 0.25
+LEV_DIST: 0.25
+----------------------
+Filename: unkn_3.txt
+Reference: Just let me die in peace.
+Hypothesis: Just let me die in peace.
+DE: 0
+IE: 0
+SE: 0
+LEV_DIST: 0
+----------------------
+Filename: unkn_4.txt
+Reference: The sculptor looked at him, bugeyed and amazed, angry.
+Hypothesis: The sculptor looked at him, bug I'd and amazed, angry.
+DE: 0
+IE: 0.11111
+SE: 0.11111
+LEV_DIST: 0.22222
+----------------------
+Filename: unkn_5.txt
+Reference: A flash illumined the trees as a crooked bolt twigged in several directions.
+Hypothesis: A flash illuminated the trees as crook bolt tweaked several directions.
+DE: 0.15385
+IE: 0
+SE: 0.23077
+LEV_DIST: 0.38462
+----------------------
+Filename: unkn_6.txt
+Reference: This is particularly true in site selection.
+Hypothesis: This is particularly true sight selection.
+DE: 0.14286
+IE: 0
+SE: 0.14286
+LEV_DIST: 0.28571
+----------------------
+Filename: unkn_7.txt
+Reference: We would lose our export markets and deny ourselves the imports we need.
+Hypothesis: We would lose sour expert markets deny ourselves the imports we need.
+DE: 0.076923
+IE: 0
+SE: 0.15385
+LEV_DIST: 0.23077
+----------------------
+Filename: unkn_8.txt
+Reference: Count the number of teaspoons of soysauce that you add.
+Hypothesis: Compton number of teaspoons of so he sauce that you add.
+DE: 0.1
+IE: 0.2
+SE: 0.2
+LEV_DIST: 0.5
+----------------------
+Filename: unkn_9.txt
+Reference: Finally he asked, do you object to petting?
+Hypothesis: Finally he asked, do you object to petting?
+DE: 0
+IE: 0
+SE: 0
+LEV_DIST: 0
+----------------------
+Filename: unkn_10.txt
+Reference: Draw every outer line first, then fill in the interior.
+Hypothesis: Draw every other line first, then fill into interior.
+DE: 0.1
+IE: 0
+SE: 0.2
+LEV_DIST: 0.3
+----------------------
+Filename: unkn_11.txt
+Reference: Change involves the displacement of form.
+Hypothesis: Change involves the displacement of fawn.
+DE: 0
+IE: 0
+SE: 0.16667
+LEV_DIST: 0.16667
+----------------------
+Filename: unkn_12.txt
+Reference: To his puzzlement, there suddenly was no haze.
+Hypothesis: Two is puzzle mint, there suddenly was no haze.
+DE: 0
+IE: 0.125
+SE: 0.375
+LEV_DIST: 0.5
+----------------------
+Filename: unkn_13.txt
+Reference: Don't ask me to carry an oily rag like that.
+Hypothesis: Donna's me to carry oily rag like that.
+DE: 0.2
+IE: 0
+SE: 0.1
+LEV_DIST: 0.3
+----------------------
+Filename: unkn_14.txt
+Reference: The full moon shone brightly that night.
+Hypothesis: The the full moon shone brightly that night.
+DE: 0
+IE: 0.14286
+SE: 0
+LEV_DIST: 0.14286
+----------------------
+Filename: unkn_15.txt
+Reference: Tugboats are capable of hauling huge loads.
+Hypothesis: Tugboats are capable falling huge loads.
+DE: 0.14286
+IE: 0
+SE: 0.14286
+LEV_DIST: 0.28571
+----------------------
+Filename: unkn_16.txt
+Reference: Did dad do academic bidding?
+Hypothesis: Did tatoo academic bidding?
+DE: 0.2
+IE: 0
+SE: 0.2
+LEV_DIST: 0.4
+----------------------
+Filename: unkn_17.txt
+Reference: She had your dark suit in greasy wash water all year.
+Hypothesis: See add your dark suit and greasy wash water all year.
+DE: 0
+IE: 0
+SE: 0.27273
+LEV_DIST: 0.27273
+----------------------
+Filename: unkn_18.txt
+Reference: The thick elm forest was nearly overwhelmed by Dutch Elm Disease.
+Hypothesis: The thick forest was nearly over helmed by Dutch Elm Disease.
+DE: 0.090909
+IE: 0.090909
+SE: 0.090909
+LEV_DIST: 0.27273
+----------------------
+Filename: unkn_19.txt
+Reference: Count the number of teaspoons of soysauce that you add.
+Hypothesis: Cow ten number of teaspoons of soysauce that you add.
+DE: 0
+IE: 0
+SE: 0.2
+LEV_DIST: 0.2
+----------------------
+Filename: unkn_20.txt
+Reference: Norwegian sweaters are made of lamb's wool.
+Hypothesis: Norwegian sweaters are made of lamb's wool.
+DE: 0
+IE: 0
+SE: 0
+LEV_DIST: 0
+----------------------
+Filename: unkn_21.txt
+Reference: We think differently.
+Hypothesis: We think differently.
+DE: 0
+IE: 0
+SE: 0
+LEV_DIST: 0
+----------------------
+Filename: unkn_22.txt
+Reference: A toothpaste tube should be squeezed from the bottom.
+Hypothesis: A too pays too should be squeezed from the bottom.
+DE: 0
+IE: 0.11111
+SE: 0.22222
+LEV_DIST: 0.33333
+----------------------
+Filename: unkn_23.txt
+Reference: Ran away on a black night with a lawful wedded man.
+Hypothesis: Ran away on a black night with an awful wedded man.
+DE: 0
+IE: 0
+SE: 0.18182
+LEV_DIST: 0.18182
+----------------------
+Filename: unkn_24.txt
+Reference: Don't ask me to carry an oily rag like that.
+Hypothesis: Down ask me to carry an oily rag like that.
+DE: 0
+IE: 0
+SE: 0.1
+LEV_DIST: 0.1
+----------------------
+Filename: unkn_25.txt
+Reference: Don't ask me to carry an oily rag like that.
+Hypothesis: Don't ask me to carry an oily rag like that.
+DE: 0
+IE: 0
+SE: 0
+LEV_DIST: 0
+----------------------
+Filename: unkn_26.txt
+Reference: Index words and electronic switches may be reserved in the following ways.
+Hypothesis: Index words an electronic switches may be reserved in the following way.
+DE: 0
+IE: 0
+SE: 0.16667
+LEV_DIST: 0.16667
+----------------------
+Filename: unkn_27.txt
+Reference: The avalanche triggered a minor earthquake.
+Hypothesis: The avalanche triggered minor earth way.
+DE: 0.16667
+IE: 0.16667
+SE: 0.16667
+LEV_DIST: 0.5
+----------------------
+Filename: unkn_28.txt
+Reference: Don't ask me to carry an oily rag like that.
+Hypothesis: Donna's me to carry an oily rag like that.
+DE: 0.1
+IE: 0
+SE: 0.1
+LEV_DIST: 0.2
+----------------------
+Filename: unkn_29.txt
+Reference: The thick elm forest was nearly overwhelmed by Dutch Elm Disease.
+Hypothesis: The thick elm for his was nail he over well bye touch Elm Disease.
+DE: 0
+IE: 0.27273
+SE: 0.45455
+LEV_DIST: 0.72727
+----------------------
+Filename: unkn_30.txt
+Reference: When all else fails, use force.
+Hypothesis: When hall else fails, use forks.
+DE: 0
+IE: 0
+SE: 0.33333
+LEV_DIST: 0.33333
+
+----------------------
+
+FINAL RESULTS
+DE: 0.05
+IE: 0.042308
+SE: 0.16538
+LEV_DIST: 0.25769
