@@ -18,11 +18,6 @@ function [SE IE DE LEV_DIST] =Levenshtein(hypothesis,annotation_dir)
 
   hypothesis_text = textread(hypothesis, '%s', 'delimiter', '\n');
 
-  % Constants for directions
-  UP = 10;
-  LEFT = 11;
-  UP_LEFT = 12;
-
   diary 'Levenshtein_out.txt';
   diary on;
   for hyp_index=1:length(hypothesis_text)
@@ -39,40 +34,41 @@ function [SE IE DE LEV_DIST] =Levenshtein(hypothesis,annotation_dir)
     total_wordcount = total_wordcount + n;
 
     distance_matrix = zeros(n + 1, m + 1);
-    %backtracking_matrix = zeros(n + 1, m + 1);
-    backtracking_matrix = {};
+    backtracking_matrix = {};  % cells handle strings more nicely
 
     distance_matrix(1, :) = Inf;
     distance_matrix(:, 1) = Inf;
     distance_matrix(1, 1) = 0;
 
-    disp('=========================');
+    disp('----------------------');
     disp(sprintf('Filename: %s', ref_filename));
     disp(sprintf('Reference: %s', strjoin(ref_sentence)));
     disp(sprintf('Hypothesis: %s', strjoin(hyp_sentence)));
 
     for i=2:n+1
       for j=2:m+1
-        del = distance_matrix(i - 1, j) + 1;
-
-        sub_modifier = 1;
         if strcmp(ref_sentence{i - 1}, hyp_sentence{j - 1})
-          sub_modifier = 0;
+          distance_matrix(i, j) = distance_matrix(i - 1, j - 1);
+          continue;
         end
-        sub = distance_matrix(i - 1, j - 1) + sub_modifier;
-
+        sub = distance_matrix(i - 1, j - 1) + 1;
+        del = distance_matrix(i - 1, j) + 1;
         ins = distance_matrix(i, j - 1) + 1;
 
-        distance_matrix(i, j) = min([del, sub, ins]);
-
-        if distance_matrix(i, j) == del
-          %backtracking_matrix(i, j) = UP;
+        [distance_matrix(i, j), index] = min([del, ins, sub]);
+        %{
+        distance_matrix(i, j) = min([ ...
+           distance_matrix(i - 1, j) + 1, ...
+           distance_matrix(i - 1, j - 1), ...
+           distance_matrix(i - 1, j - 1) + 1, ...
+           distance_matrix(i, j - 1) + 1 ]);
+        %}
+        
+        if index == 1
           backtracking_matrix{i, j} = 'up';
-        elseif distance_matrix(i, j) == ins
-          %backtracking_matrix(i, j) = LEFT;
+        elseif index == 2
           backtracking_matrix{i, j} = 'left';
-        elseif distance_matrix(i, j) == sub
-          %backtracking_matrix(i, j) = UP_LEFT;
+        elseif index == 3
           backtracking_matrix{i, j} = 'up-left';
         end
       end
@@ -81,22 +77,27 @@ function [SE IE DE LEV_DIST] =Levenshtein(hypothesis,annotation_dir)
     local_se = 0;
     local_de = 0;
     local_ie = 0;
-
-    % count new IE, DE and SEs
-    flat_backtracking_matrix = backtracking_matrix(:)';
-    for index=1:length(flat_backtracking_matrix)
-      %if flat_backtracking_matrix(index) == UP_LEFT
-      if strcmp(flat_backtracking_matrix(index), 'up-left')
-        local_se = local_se + 1;
-        SE = SE + 1;        
-      %elseif flat_backtracking_matrix(index) == UP
-      elseif strcmp(flat_backtracking_matrix(index), 'up')
-        local_de = local_de + 1;
-        DE = DE + 1;
-      %elseif flat_backtracking_matrix(index) == LEFT
-      elseif strcmp(flat_backtracking_matrix(index), 'left')
-        local_ie = local_ie + 1;
-        IE = IE + 1;
+    
+    i = size(backtracking_matrix, 1);
+    j = size(backtracking_matrix, 2);
+    while ((i ~= 1) || (j ~= 1))
+      value = backtracking_matrix{i, j};
+      if strcmp(value, 'left')
+         local_ie = local_ie + 1;
+         IE = IE + 1;
+         j = j - 1;
+      elseif strcmp(value, 'up')
+         local_de = local_de + 1;
+         DE = DE + 1;
+         i = i - 1;
+      elseif strcmp(value, 'up-left')
+         local_se = local_se + 1;
+         SE = SE + 1;
+         i = i - 1;
+         j = j - 1;
+      else
+        i = i - 1;
+        j = j - 1;
       end
     end
 
@@ -105,8 +106,10 @@ function [SE IE DE LEV_DIST] =Levenshtein(hypothesis,annotation_dir)
     local_ie = local_ie / n;
     local_lev = local_se + local_de + local_ie;
 
-    disp(sprintf('%s\t%s\t%s\t%s', 'SE', 'DE', 'IE', 'LEV'));
-    disp(sprintf('%s\t%s\t%s\t%s', num2str(local_se), num2str(local_de), num2str(local_ie), num2str(local_lev)));
+    disp(sprintf('DE: %s', num2str(local_de)));
+    disp(sprintf('IE: %s', num2str(local_ie)));
+    disp(sprintf('SE: %s', num2str(local_se)));
+    disp(sprintf('LEV_DIST: %s', num2str(local_lev)));
     diary off;
     diary on;
   end
@@ -117,11 +120,11 @@ function [SE IE DE LEV_DIST] =Levenshtein(hypothesis,annotation_dir)
 
   LEV_DIST = SE + IE + DE;
 
-  total_wordcount
-  disp('=========================');
+  disp('----------------------');
   disp('FINAL RESULTS');
-  disp(sprintf('%s\t%s\t%s\t%s', 'SE', 'DE', 'IE', 'LEV'));
-  disp(sprintf('%s\t%s\t%s\t%s', num2str(SE), num2str(DE), num2str(IE), num2str(LEV_DIST)));
-
+  disp(sprintf('DE: %s', num2str(DE)));
+  disp(sprintf('IE: %s', num2str(IE)));
+  disp(sprintf('SE: %s', num2str(SE)));
+  disp(sprintf('LEV_DIST: %s', num2str(LEV_DIST)));
   diary off;
 end
