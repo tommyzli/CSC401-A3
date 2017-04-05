@@ -4,10 +4,12 @@ addpath(genpath('/u/cs401/A3_ASR/code/FullBNT-1.0.7'));
 training_dir_path = '/u/cs401/speechdata/Training';
 M = 8;
 Q = 3;
+D = 14;
+percent_training_data = 1;
 init_type = 'kmeans';
 max_iter = 15;
+output_file_name = 'trained_hmms.mat';
 
-if ~exist('phonemes.mat')
   disp('building phoneme struct');
   training_dir_contents = regexp(ls(training_dir_path), '\s', 'split');
   % remove empty strings from the array
@@ -24,6 +26,7 @@ if ~exist('phonemes.mat')
       mfcc_file = mfcc_files(file_index).name;
 
       mfcc_vectors = dlmread(strcat(char(speaker_path), mfcc_file));
+      mfcc_vectors = mfcc_vectors(1:end, 1:D);
 
       phoneme_text = textread([char(speaker_path), phoneme_file], '%s', 'delimiter', '\n');
       for phoneme_index=1:length(phoneme_text)
@@ -48,11 +51,6 @@ if ~exist('phonemes.mat')
       end
     end
   end
-  save('phonemes.mat', 'phonemes', '-mat');
-else
-  disp('loading presaved phoneme struct');
-  load('phonemes.mat', '-mat');
-end
 
 observed_phonemes = fieldnames(phonemes);
 hmms = struct();
@@ -60,6 +58,8 @@ trained_hmms = struct();
 
 for i=1:length(observed_phonemes)
   phoneme_data = phonemes.(observed_phonemes{i});
+  cutoff_index = ceil(percent_training_data * length(phonemes.(observed_phonemes{i})));
+  phoneme_data = phoneme_data(1:cutoff_index);
 
   disp(sprintf('initializing hmm for %s', observed_phonemes{i}));
   hmms.(observed_phonemes{i}) = initHMM(phoneme_data, M, Q, init_type);
@@ -70,4 +70,4 @@ for i=1:length(observed_phonemes)
   trained_hmms.(observed_phonemes{i}) = trained_HMM;
 end
 
-save('trained_hmms.mat', 'trained_hmms', '-mat');
+save(output_file_name, 'trained_hmms', '-mat');
