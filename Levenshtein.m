@@ -56,13 +56,6 @@ function [SE IE DE LEV_DIST] =Levenshtein(hypothesis,annotation_dir)
         ins = distance_matrix(i, j - 1) + 1;
 
         [distance_matrix(i, j), index] = min([del, ins, sub]);
-        %{
-        distance_matrix(i, j) = min([ ...
-           distance_matrix(i - 1, j) + 1, ...
-           distance_matrix(i - 1, j - 1), ...
-           distance_matrix(i - 1, j - 1) + 1, ...
-           distance_matrix(i, j - 1) + 1 ]);
-        %}
         
         if index == 1
           backtracking_matrix{i, j} = 'up';
@@ -128,3 +121,4 @@ function [SE IE DE LEV_DIST] =Levenshtein(hypothesis,annotation_dir)
   disp(sprintf('LEV_DIST: %s', num2str(LEV_DIST)));
   diary off;
 end
+
