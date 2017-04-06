@@ -93,18 +93,38 @@ Accuracy        M       Q       D       % of training data used
 48.36%          4       3       14       100%
 45.26%          8       1       14       100%
 43.52%          4       1       14       100%
-                8       3       7        100%  TRAINING b2200-12
+36.73%          8       3       7        100%
 40.79%          4       3       7        100%
 35.04%          8       1       7        100%
 33.94%          4       1       7        100%
 39.78%          8       3       14       67%
 44.89%          4       3       14       67%
-                8       1       14       67%
-                4       1       14       67%
-                8       3       7        67%
-                4       3       7        67%
+42.70%          8       1       14       67%
+42.24%          4       1       14       67%
+38.14%          8       3       7        67%
+38.96%          4       3       7        67%
 33.85%          8       1       7        67%
 31.30%          4       1       7        67%
+
+Observations:
+
+ - Changing the dimensionality of the data has the largest effect, as reducing it
+   from 14 to 7 results in a drop of about 10% in accuracy.
+
+ - Reducing the amount of training data used also noticably decreases accuracy, but
+   not by as drastic a margin as dimensionality.
+
+ - Changing M and Q results in much less significant changes to accuracy. Reducing M
+   from 8 to 4 can decrease, increase, or even leave accuracy unchanged. Reducing Q
+   from 3 to 1 generally decreases accuracy, but not by very noticable margins.
+
+ - The highest observed accuracy was 48.36%, with the parameters M = 4, Q = 3, D = 14,
+   and using 100% of the training data.
+
+ - The lowest observed accuracy was 31.30%, with the parameters M = 4, Q = 1, D = 7, and
+   using 67% of the training data. This is to be expected, as reducing dimensionality and
+   percentage of training data used are the two parameters that most drastically decrease
+   accuracy when reduced.
 
 
 ===========
