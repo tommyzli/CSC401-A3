@@ -36,8 +36,13 @@ function [SE IE DE LEV_DIST] =Levenshtein(hypothesis,annotation_dir)
     distance_matrix = zeros(n + 1, m + 1);
     backtracking_matrix = {};  % cells handle strings more nicely
 
-    distance_matrix(1, :) = Inf;
-    distance_matrix(:, 1) = Inf;
+    for i=2:size(distance_matrix, 2)
+      distance_matrix(i, 1) = i;  
+    end
+
+    for i=2:size(distance_matrix, 1)
+      distance_matrix(1, i) = i;  
+    end
     distance_matrix(1, 1) = 0;
 
     disp('----------------------');
