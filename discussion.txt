@@ -122,9 +122,8 @@ Observations:
    and using 100% of the training data.
 
  - The lowest observed accuracy was 31.30%, with the parameters M = 4, Q = 1, D = 7, and
-   using 67% of the training data. This is to be expected, as reducing dimensionality and
-   percentage of training data used are the two parameters that most drastically decrease
-   accuracy when reduced.
+   using 67% of the training data. This is to be expected as it is the result of reducing
+   all four parameters, which have each shown to cause decreases in the calculated likelihood.
 
 
 ===========
